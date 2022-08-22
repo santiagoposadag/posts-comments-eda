@@ -1,4 +1,4 @@
-package com.posada.santiago.postscommentseda.routes;
+package com.posada.santiago.postscommentseda.generic;
 
 import java.io.Serializable;
 import java.time.Instant;

@@ -1,7 +1,6 @@
 package com.posada.santiago.postscommentseda.generic;
 
 import com.google.gson.Gson;
-import com.posada.santiago.postscommentseda.routes.DomainEvent;
 
 public class Serializer {
 

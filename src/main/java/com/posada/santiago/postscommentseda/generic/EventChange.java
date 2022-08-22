@@ -1,7 +1,5 @@
 package com.posada.santiago.postscommentseda.generic;
 
-import com.posada.santiago.postscommentseda.routes.DomainEvent;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -12,7 +10,7 @@ public abstract class EventChange{
     public EventChange() {
     }
 
-    protected void listen(Consumer<? super DomainEvent> listener){
-        this.listeners.add(listener);
+    protected void listen(Consumer<? extends DomainEvent> changeEvent) {
+        this.listeners.add((Consumer<? super DomainEvent>) changeEvent);
     }
 }

@@ -1,6 +1,7 @@
 package com.posada.santiago.postscommentseda.domain.event;
 
-import com.posada.santiago.postscommentseda.routes.DomainEvent;
+
+import com.posada.santiago.postscommentseda.generic.DomainEvent;
 
 public class CommentCreated extends DomainEvent {
 

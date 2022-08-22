@@ -1,7 +1,5 @@
 package com.posada.santiago.postscommentseda.generic;
 
-import com.posada.santiago.postscommentseda.routes.DomainEvent;
-
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -29,6 +27,12 @@ public abstract class EventChangeSubscriber {
             }
 
         });
+    }
+    public List<DomainEvent> getUncommittedChanges() {
+        return List.copyOf(changes);
+    }
+    public void markChangesAsCommitted() {
+        changes.clear();
     }
 
     @FunctionalInterface
