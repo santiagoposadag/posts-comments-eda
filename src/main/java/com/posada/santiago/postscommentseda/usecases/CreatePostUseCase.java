@@ -33,8 +33,8 @@ public class CreatePostUseCase implements Function<CreatePostCommand, Mono<Stora
     }
 
     @Override
-    public Mono<StorableEvent> apply(CreatePostCommand createCommentCommandMono) {
-        return Mono.just(createCommentCommandMono).map(command -> new Post(command.getTitle(), command.getContent()))
+    public Mono<StorableEvent> apply(CreatePostCommand createPostCommand) {
+        return Mono.just(createPostCommand).map(command -> new Post(command.getTitle(), command.getContent()))
                 .map(post -> post.getUncommittedChanges())
                 .flatMap(changes -> {
                     StorableEvent toBeSaved = new StorableEvent(
@@ -42,8 +42,7 @@ public class CreatePostUseCase implements Function<CreatePostCommand, Mono<Stora
                             changes.get(0).parentId,
                             gson.toJson(changes.get(0)),
                             changes.get(0).getClass().getCanonicalName());
-                    postsRepository.save(new PostsCreatedData(changes.get(0).parentId)).subscribe();
-                    return eventsRepository.save(toBeSaved);
+                    return postsRepository.save(new PostsCreatedData(changes.get(0).parentId)).flatMap((post) -> eventsRepository.save(toBeSaved));
                 });
     }
 }

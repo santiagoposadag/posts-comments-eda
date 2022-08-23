@@ -10,6 +10,7 @@ public class CommentCreated extends DomainEvent {
     public CommentCreated(String id, String content) {
         super(id);
         this.content = content;
+
     }
 
     public String getContent() {
