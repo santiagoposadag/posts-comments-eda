@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.posada.santiago.postscommentseda.data.StorableEvent;
 import com.posada.santiago.postscommentseda.domain.Post;
 import com.posada.santiago.postscommentseda.domain.commands.CreateCommentCommand;
-import com.posada.santiago.postscommentseda.domain.commands.CreatePostCommand;
 import com.posada.santiago.postscommentseda.generic.DomainEvent;
 import com.posada.santiago.postscommentseda.repository.StoredEventRepository;
 import org.springframework.stereotype.Service;
@@ -45,7 +44,7 @@ public class CreateCommentUseCase implements Function<CreateCommentCommand, Mono
                             var change = post.getUncommittedChanges().get(0);
                             StorableEvent storableEvent = new StorableEvent(
                                     null,
-                                    change.parentId,
+                                    change.aggregateRootId,
                                     gson.toJson(change),
                                     change.getClass().getCanonicalName()
                             );

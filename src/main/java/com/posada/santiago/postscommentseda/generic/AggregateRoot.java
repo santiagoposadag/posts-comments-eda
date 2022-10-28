@@ -3,16 +3,24 @@ package com.posada.santiago.postscommentseda.generic;
 import java.util.*;
 import java.util.function.Consumer;
 
-public abstract class EventChangeSubscriber {
+public abstract class AggregateRoot {
     private final List<DomainEvent> changes = new LinkedList();
     private final Set<Consumer<? super DomainEvent>> observables = new HashSet();
+    /**
+    (parametro)=> return response Function
+     (parametro)=> {} Consumer
+     ()=> return response Supplier
+     (parametro) => return boolean
+
+     **/
+
 
 
     public final void subscribe(EventChange eventChange) {
         this.observables.addAll(eventChange.listeners);
     }
 
-    public final EventChangeSubscriber.ChangeApply appendChange(DomainEvent event) {
+    public final AggregateRoot.ChangeApply appendChange(DomainEvent event) {
         this.changes.add(event);
         return () -> {
             this.applyEvent(event);

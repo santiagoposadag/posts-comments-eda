@@ -3,15 +3,14 @@ package com.posada.santiago.postscommentseda.domain;
 import com.posada.santiago.postscommentseda.domain.event.CommentCreated;
 import com.posada.santiago.postscommentseda.domain.event.PostCreated;
 import com.posada.santiago.postscommentseda.generic.DomainEvent;
-import com.posada.santiago.postscommentseda.generic.EventChange;
-import com.posada.santiago.postscommentseda.generic.EventChangeSubscriber;
+import com.posada.santiago.postscommentseda.generic.AggregateRoot;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class Post extends EventChangeSubscriber {
+public class Post extends AggregateRoot {
 
     protected String id;
     protected String title;

@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public abstract class EventChange{
+public abstract class EventChange {
     protected Set<Consumer<? super DomainEvent>> listeners = new HashSet();
 
     public EventChange() {

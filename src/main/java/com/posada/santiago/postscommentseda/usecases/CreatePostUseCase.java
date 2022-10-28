@@ -6,16 +6,12 @@ import com.posada.santiago.postscommentseda.data.PostsCreatedData;
 import com.posada.santiago.postscommentseda.data.StorableEvent;
 import com.posada.santiago.postscommentseda.domain.Post;
 import com.posada.santiago.postscommentseda.domain.commands.CreatePostCommand;
-import com.posada.santiago.postscommentseda.generic.DomainEvent;
-import com.posada.santiago.postscommentseda.generic.Serializer;
 import com.posada.santiago.postscommentseda.repository.PostCreatedRepository;
 import com.posada.santiago.postscommentseda.repository.StoredEventRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.io.PrintStream;
-import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -34,15 +30,16 @@ public class CreatePostUseCase implements Function<CreatePostCommand, Mono<Stora
 
     @Override
     public Mono<StorableEvent> apply(CreatePostCommand createPostCommand) {
-        return Mono.just(createPostCommand).map(command -> new Post(command.getTitle(), command.getContent()))
+        return Mono.just(createPostCommand).map(command ->
+                        new Post(command.getTitle(), command.getContent()))
                 .map(post -> post.getUncommittedChanges())
                 .flatMap(changes -> {
                     StorableEvent toBeSaved = new StorableEvent(
                             null,
-                            changes.get(0).parentId,
+                            changes.get(0).aggregateRootId,
                             gson.toJson(changes.get(0)),
                             changes.get(0).getClass().getCanonicalName());
-                    return postsRepository.save(new PostsCreatedData(changes.get(0).parentId)).flatMap((post) -> eventsRepository.save(toBeSaved));
+                    return postsRepository.save(new PostsCreatedData(changes.get(0).aggregateRootId)).flatMap((post) -> eventsRepository.save(toBeSaved));
                 });
     }
 }
